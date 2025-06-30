@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const Positions = () => {
   const [positions,setPositions]= useState([])
   useEffect(()=>{
-    axios.get("http://localhost:5000/allpositions").then((res)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/allpositions`).then((res)=>{
       console.log(res.data)
           setPositions(res.data);
     })

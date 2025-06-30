@@ -7,7 +7,7 @@ import VerticalGraph from "./BarGraph.jsx"
 const Holdings = () => {
   const [holdings,setHoldings]= useState([])
   useEffect(()=>{
-    axios.get("http://localhost:5000/allholdings").then((res)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/allholdings`).then((res)=>{
       console.log(res.data)
           setHoldings(res.data);
     })
