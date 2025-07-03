@@ -9,11 +9,9 @@ function Signup() {
   const handlesubmit=async(e)=>{
       e.preventDefault();
       try{
-        const res=await axios.post("http://localhost:5000/signup",formdata)
+        const res=await axios.post(import.meta.env.VITE_SIGNUP_URL,formdata)
         alert(res.data.message);
         localStorage.setItem("token", res.data.token);
-    
-       
         window.location.href = res.data.redirectUrl;
       }
       catch(err){
@@ -22,7 +20,6 @@ function Signup() {
           else 
           alert("something went wrong")
       }
-     
   }
   const handlechange=(e)=>{
         setFormdata((prev)=>({...prev,[e.target.id]:e.target.value}))
@@ -157,7 +154,6 @@ function Signup() {
         </button>
       </form>
     </div>
-    
    </div>
   );
 }

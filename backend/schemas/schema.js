@@ -40,9 +40,7 @@ const userSchema=new Schema({
             required:true
       }
 })
-userSchema.pre("save", async function () {
-      this.password = await bcrypt.hash(this.password, 12);
-    });
+
 
 
 module.exports={holdingSchema,orderSchema,positionSchema,userSchema};

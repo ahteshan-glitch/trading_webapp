@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+
 function Login() {
     const [userData,setUserData]=useState({username:"",password:""})
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const res = await axios.post("http://localhost:5000/login", userData);
-        
-       
+        const res = await axios.post(import.meta.env.VITE_LOGIN_URL, userData);
         localStorage.setItem("token", res.data.token);
-    
-       
         window.location.href = res.data.redirectUrl;
       } catch (error) {
         if (error) {
@@ -58,7 +55,6 @@ function Login() {
             }}
           />
         </div>
-       
 
         <div style={{ marginBottom: "5px" }}>
           <label
@@ -88,7 +84,6 @@ function Login() {
               transition: "border 0.3s",
             }}
           />
-          
         </div>
         <p className="mb-2">Don't have account ? <Link to="/signup">Create now</Link></p>
         <button
@@ -126,7 +121,6 @@ function Login() {
           Log in
         </button>
               </form>
-              
             </div>
           </div>
      );
