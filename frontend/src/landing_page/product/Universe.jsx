@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
 function Universe() {
+    const navigate = useNavigate();
+     
     return ( 
         <div className="container mt-5  mb-5">
             <div className="row text-center ">
@@ -40,7 +43,7 @@ function Universe() {
             </div>
             <div className="row">
                 <div className="col text-center mb-5">
-                    <button className="btn btn-primary">Sign up now</button>
+                <button onClick={()=>navigate('/signup')} className='btn btn-primary mt-2' style={{ width: "15%", margin: "0 auto" }}>Signup Now</button>
                 </div>
                 
             </div>
@@ -49,3 +52,6 @@ function Universe() {
 }
 
 export default Universe;
+
+            
+            

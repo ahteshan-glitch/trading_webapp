@@ -8,6 +8,7 @@ import SupportPage from "./landing_page/support/SupportPage.jsx"
 import ProductPage from "./landing_page/product/productpage.jsx"
 
 import { Routes, Route } from 'react-router-dom';
+import Login from './landing_page/login/Login.jsx';
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/pricing" element={<PricingPage />} />
       <Route path="/about" element={<About />} />
-      
+      <Route path="/login" element={<Login/>}/>
       
       <Route path="/support" element={<SupportPage />} />
       <Route path="/products" element={<ProductPage />} />

@@ -1,94 +1,135 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-
-const Login = () => {
-  const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    email: "",
-    password: "",
-  });
-  const { email, password } = inputValue;
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
-  };
-
-  const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
-  const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-left",
-    });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/login`,
-        {
-          ...inputValue,
-        },
-        { withCredentials: true }
-      );
-      console.log(data);
-      const { success, message } = data;
-      if (success) {
-        handleSuccess(message);
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
-      } else {
-        handleError(message);
+function Login() {
+    const [userData,setUserData]=useState({username:"",password:""})
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.post("http://localhost:5000/login", userData);
+        
+       
+        localStorage.setItem("token", res.data.token);
+    
+       
+        window.location.href = res.data.redirectUrl;
+      } catch (error) {
+        if (error) {
+          alert(error.response.data.message);
+        } else {
+          alert("Something went wrong.");
+        }
       }
-    } catch (error) {
-      console.log(error);
+    };
+    
+    const handleChange=(e)=>{
+            setUserData((prev)=>({...prev,[e.target.id]:e.target.value}))
     }
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-    });
-  };
-
-  return (
-    <div className="form_container">
-      <h2>Login Account</h2>
+    return ( 
+        <div style={{paddingTop:"57px"}}>
+     <div style={{ paddingTop: "57px", maxWidth: "400px", margin: "0 auto" }} className="mb-5">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
+      <div style={{ marginBottom: "20px" }}>
+          <label
+            htmlFor="username"
+            style={{
+              display: "block",
+              fontWeight: "600",
+              marginBottom: "8px",
+              color: "#555",
+            }}
+          >
+            username
+          </label>
           <input
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={handleOnChange}
+            onChange={handleChange}
+           value={userData.username}
+            type="username"
+            id="username"
+            placeholder="username"
+            required
+            style={{
+              width: "100%",
+              padding: "12px",
+              border: "2px solid #e0e0e0",
+              borderRadius: "8px",
+              fontSize: "14px",
+              transition: "border 0.3s",
+            }}
           />
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
+       
+
+        <div style={{ marginBottom: "5px" }}>
+          <label
+            htmlFor="password"
+            style={{
+              display: "block",
+              fontWeight: "600",
+              marginBottom: "8px",
+              color: "#555",
+            }}
+          >
+            Password
+          </label>
           <input
+            onChange={handleChange}
+            value={userData.password}
             type="password"
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={handleOnChange}
+            id="password"
+            placeholder="Create a password"
+            required
+            style={{
+              width: "100%",
+              padding: "12px",
+              border: "2px solid #e0e0e0",
+              borderRadius: "8px",
+              fontSize: "14px",
+              transition: "border 0.3s",
+            }}
           />
+          
         </div>
-        <button type="submit">Submit</button>
-        <span>
-          Already have an account? <Link to={"/signup"}>Signup</Link>
-        </span>
-      </form>
-      <ToastContainer />
-    </div>
-  );
-};
+        <p className="mb-2">Don't have account ? <Link to="/signup">Create now</Link></p>
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            padding: "14px",
+            backgroundColor: "#387ed1",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            fontWeight: "600",
+            fontSize: "16px",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            transform: "translateY(0)",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.backgroundColor = "#2a5ea0";
+            e.currentTarget.style.transform = "translateY(1px)";
+            e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.1)";
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.backgroundColor = "#387ed1";
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#387ed1";
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+          }}
+        >
+          Log in
+        </button>
+              </form>
+              
+            </div>
+          </div>
+     );
+}
 
 export default Login;

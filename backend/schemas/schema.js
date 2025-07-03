@@ -25,25 +25,20 @@ const positionSchema=new Schema({
       isLoss: Boolean,
 })
 const userSchema=new Schema({
-      email:{
-            type:String,
-            required:true,
-            unique:true
-      },
       username:{
             type:String,
             required:true,
-            unique:true
+            unique: true
+      },
+      email:{
+            type:String,
+            required:true,
+            unique: true
       },
       password:{
             type:String,
-            required:true,
-            unique:true
-      },
-      createdAt: {
-            type: Date,
-            default: new Date(),
-      },
+            required:true
+      }
 })
 userSchema.pre("save", async function () {
       this.password = await bcrypt.hash(this.password, 12);
