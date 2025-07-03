@@ -5,7 +5,8 @@ const app=express();
 const bodyParser = require('body-parser')
 const cors=require("cors")
 const {holdingModel,orderModel,positionModel,userModel}=require("./models/model.js")
-const PORT=5000;
+const PORT = process.env.PORT || 5000;
+
 const URL=process.env.MONGO_URL;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -45,7 +46,7 @@ app.post("/signup",async(req,res)=>{
          username,email,password:hash
         })
  
-     let token=jwt.sign({email},"ahteshan0904code")
+     let token=jwt.sign({email},process.env.JWT_SECRET)
      res.cookie("token",token)
      return res.status(200).json({message:"created account successfully",token,redirectUrl: "https://marketspex.netlify.app/",})
     
@@ -69,7 +70,7 @@ app.post("/signup",async(req,res)=>{
      bcrypt.compare(password, user.password, function(err, result) {
         if(err) return res.status(500).json({ message: "something went wrong" });
         if (result) {
-         let token = jwt.sign({ email: user.email }, "ahteshan0904code");
+         let token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
          return res.status(200).json({
            
            token,
