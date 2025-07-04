@@ -83,7 +83,7 @@ app.post("/login",async(req,res)=>{
 })
 
 app.get("/",(req,res)=>{
-    res.send("welcome to the backend")
+    res.send("welcome to the database")
 })
 
 
