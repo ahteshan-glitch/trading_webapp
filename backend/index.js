@@ -30,7 +30,7 @@ app.post("/newOrder",async(req,res)=>{
    await newOrder.save();
 })
 app.post("/signup",async(req,res)=>{
-    res.send("welconme to signup")
+    console.log("welcome to signup page")
    const {username,email,password}=req.body
    const existingUser = await userModel.findOne({ username });
     if (existingUser) {
@@ -62,7 +62,7 @@ app.post("/logout",(req,res)=>{
     res.cookie("token","")
 })
 app.post("/login",async(req,res)=>{
-    res.send("welconme to login")
+    console.log("response revcieved")
     let {username,password}=req.body;
     const user=await userModel.findOne({username})
     if(!user) return res.status(401).json({message:"something went wrong"})
@@ -83,7 +83,7 @@ app.post("/login",async(req,res)=>{
 })
 
 app.get("/",(req,res)=>{
-    res.send("welcome to the database")
+    res.send("welcome to the backend")
 })
 
 

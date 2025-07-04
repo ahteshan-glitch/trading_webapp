@@ -9,7 +9,8 @@ function Signup() {
   const handlesubmit=async(e)=>{
       e.preventDefault();
       try{
-        const res=await axios.post(import.meta.env.VITE_SIGNUP_URL,formdata)
+        const res = await axios.post(import.meta.env.VITE_SIGNUP_URL, userData);
+
         alert(res.data.message);
         localStorage.setItem("token", res.data.token);
         window.location.href = res.data.redirectUrl;
