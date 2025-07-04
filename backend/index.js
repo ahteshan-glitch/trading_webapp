@@ -30,7 +30,7 @@ app.post("/newOrder",async(req,res)=>{
    await newOrder.save();
 })
 app.post("/signup",async(req,res)=>{
-    
+    res.send("welconme to signup")
    const {username,email,password}=req.body
    const existingUser = await userModel.findOne({ username });
     if (existingUser) {
@@ -62,6 +62,7 @@ app.post("/logout",(req,res)=>{
     res.cookie("token","")
 })
 app.post("/login",async(req,res)=>{
+    res.send("welconme to login")
     let {username,password}=req.body;
     const user=await userModel.findOne({username})
     if(!user) return res.status(401).json({message:"something went wrong"})
