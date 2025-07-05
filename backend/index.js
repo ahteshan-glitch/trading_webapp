@@ -11,9 +11,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 app.use(bodyParser.json())
 app.use(cors({
-  origin: ["http://localhost:5173", "https://marketspex.netlify.app"],
+  origin: [
+    "http://localhost:5173",
+    "https://marketspex.netlify.app",
+    "https://moonlit-cocada-c21814.netlify.app" 
+  ],
   credentials: true,
 }));
+
 app.get("/allholdings",async(req,res)=>{
     let allholdings=await holdingModel.find({})
     res.send(allholdings)
