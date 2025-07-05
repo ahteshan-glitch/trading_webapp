@@ -61,8 +61,7 @@ app.post("/signup",async(req,res)=>{
 app.post("/logout",(req,res)=>{
     res.cookie("token","")
 })
-app.get("/login",(req,res)=>{
-    res.send("welcome to login page")})
+
 app.post("/login",async(req,res)=>{
     console.log("response revcieved")
     let {username,password}=req.body;
