@@ -2,121 +2,128 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-const styles = {
-  container: { paddingTop: "57px", maxWidth: "400px", margin: "0 auto" },
-  fieldWrapper: { marginBottom: "20px" },
-  label: { display: "block", fontWeight: 600, marginBottom: "8px", color: "#555" },
-  input: {
-    width: "100%",
-    padding: "12px",
-    border: "2px solid #e0e0e0",
-    borderRadius: "8px",
-    fontSize: "14px",
-    transition: "border 0.3s",
-  },
-  button: {
-    width: "100%",
-    padding: "14px",
-    backgroundColor: "#387ed1",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    fontWeight: 600,
-    fontSize: "16px",
-    cursor: "pointer",
-    transition: "all 0.2s ease",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-};
-
 function Login() {
-  const [userData, setUserData] = useState({ username: "", password: "" });
-
-  const handleChange = (e) =>
-    setUserData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const url = import.meta.env.VITE_LOGIN_URL;
-    if (!url) {
-      return alert("Login URL not configured. Check your .env file.");
-    }
-
-    try {
-      const res = await axios.post(
-        url,
-        userData,
-        { withCredentials: true }
-      );
-      // store token if you also return it in JSON
-      if (res.data.token) {
+    const [userData,setUserData]=useState({username:"",password:""})
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.post(import.meta.env.VITE_LOGIN_URL, userData);
         localStorage.setItem("token", res.data.token);
+        window.location.href = res.data.redirectUrl;
+      } catch (error) {
+        if (error) {
+          alert(error.response.data.message);
+        } else {
+          alert("Something went wrong.");
+        }
       }
-      window.location.href = res.data.redirectUrl;
-    } catch (err) {
-      // More robust guard
-      const msg =
-        err.response?.data?.message ||
-        err.message ||
-        "Something went wrong. Please try again.";
-      alert(msg);
+    };
+    
+    const handleChange=(e)=>{
+            setUserData((prev)=>({...prev,[e.target.id]:e.target.value}))
     }
-  };
-
-  return (
-    <div style={styles.container}>
+    return ( 
+        <div style={{paddingTop:"57px"}}>
+     <div style={{ paddingTop: "57px", maxWidth: "400px", margin: "0 auto" }} className="mb-5">
       <form onSubmit={handleSubmit}>
-        <div style={styles.fieldWrapper}>
-          <label htmlFor="username" style={styles.label}>
-            Username
+      <div style={{ marginBottom: "20px" }}>
+          <label
+            htmlFor="username"
+            style={{
+              display: "block",
+              fontWeight: "600",
+              marginBottom: "8px",
+              color: "#555",
+            }}
+          >
+            username
           </label>
           <input
+            onChange={handleChange}
+           value={userData.username}
+            type="username"
             id="username"
-            type="text"
             placeholder="username"
             required
-            value={userData.username}
-            onChange={handleChange}
-            style={styles.input}
+            style={{
+              width: "100%",
+              padding: "12px",
+              border: "2px solid #e0e0e0",
+              borderRadius: "8px",
+              fontSize: "14px",
+              transition: "border 0.3s",
+            }}
           />
         </div>
 
-        <div style={styles.fieldWrapper}>
-          <label htmlFor="password" style={styles.label}>
+        <div style={{ marginBottom: "5px" }}>
+          <label
+            htmlFor="password"
+            style={{
+              display: "block",
+              fontWeight: "600",
+              marginBottom: "8px",
+              color: "#555",
+            }}
+          >
             Password
           </label>
           <input
-            id="password"
-            type="password"
-            placeholder="password"
-            required
-            value={userData.password}
             onChange={handleChange}
-            style={styles.input}
+            value={userData.password}
+            type="password"
+            id="password"
+            placeholder="Create a password"
+            required
+            style={{
+              width: "100%",
+              padding: "12px",
+              border: "2px solid #e0e0e0",
+              borderRadius: "8px",
+              fontSize: "14px",
+              transition: "border 0.3s",
+            }}
           />
         </div>
-
-        <p className="mb-2">
-          Don't have an account? <Link to="/signup">Create now</Link>
-        </p>
-
+        <p className="mb-2">Don't have account ? <Link to="/signup">Create now</Link></p>
         <button
           type="submit"
-          style={styles.button}
+          style={{
+            width: "100%",
+            padding: "14px",
+            backgroundColor: "#387ed1",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            fontWeight: "600",
+            fontSize: "16px",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            transform: "translateY(0)",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+          }}
           onMouseDown={(e) => {
+            e.currentTarget.style.backgroundColor = "#2a5ea0";
             e.currentTarget.style.transform = "translateY(1px)";
             e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.1)";
           }}
           onMouseUp={(e) => {
+            e.currentTarget.style.backgroundColor = "#387ed1";
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "#387ed1";
             e.currentTarget.style.transform = "translateY(0)";
             e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
           }}
         >
           Log in
         </button>
-      </form>
-    </div>
-  );
+              </form>
+            </div>
+          </div>
+     );
 }
 
 export default Login;
