@@ -69,7 +69,7 @@ app.post("/signup", async (req, res) => {
     res.status(200).json({
       message: "Account created successfully",
       token,
-      redirectUrl: process.env.FRONTEND_URL,
+      redirectUrl: process.env.BACKEND_URL,
     });
   });
 });
