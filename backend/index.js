@@ -10,10 +10,7 @@ const URL=process.env.MONGO_URL;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 app.use(bodyParser.json())
-app.use(cors({
-  origin: ["http://localhost:5173", "https://marketspex.netlify.app"],
-  credentials: true,
-}));
+app.use(cors())
 app.get("/allholdings",async(req,res)=>{
     let allholdings=await holdingModel.find({})
     res.send(allholdings)
@@ -40,7 +37,6 @@ app.post("/signup",async(req,res)=>{
       return res.status(409).json({ message: "Username already exists" });
     }
 
-
    bcrypt.hash(password, 10, async(err, hash)=>{
     if(err) console.log(err)
     const newuser=await userModel.create({
@@ -50,21 +46,11 @@ app.post("/signup",async(req,res)=>{
     let token=jwt.sign({email},process.env.JWT_SECRET)
     res.cookie("token",token)
     return res.status(200).json({message:"created account successfully",token,redirectUrl: process.env.BACKEND_URL,})
-   
-       
 });
-
-
-  
-   
-   
-  
-    
 })
 app.post("/logout",(req,res)=>{
     res.cookie("token","")
 })
-
 app.post("/login",async(req,res)=>{
     console.log("response revcieved")
     let {username,password}=req.body;
@@ -75,23 +61,16 @@ app.post("/login",async(req,res)=>{
        if (result) {
         let token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
         return res.status(200).json({
-          
           token,
           redirectUrl: process.env.BACKEND_URL,
         });
       }
        else return res.status(403).json({ message: "Please recheck your credentials" });
-
     });
-    
 })
-
 app.get("/",(req,res)=>{
     res.send("welcome to the backend")
 })
-
-
-
 app.listen(PORT,()=>{
     console.log("server online")
     mongoose.connect(URL)
