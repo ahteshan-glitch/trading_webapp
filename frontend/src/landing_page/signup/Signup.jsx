@@ -9,7 +9,7 @@ function Signup() {
   const handlesubmit=async(e)=>{
       e.preventDefault();
       try{
-        const res = await axios.post(import.meta.env.VITE_SIGNUP_URL, userData);
+        const res = await axios.post(import.meta.env.VITE_SIGNUP_URL, formdata);
 
         alert(res.data.message);
         localStorage.setItem("token", res.data.token);
