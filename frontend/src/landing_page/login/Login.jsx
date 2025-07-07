@@ -7,7 +7,7 @@ function Login() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const res = await axios.post("http://localhost:5000/login", userData);
+        const res = await axios.post(import.meta.env.VITE_LOGIN_URL, userData);
 
         localStorage.setItem("token", res.data.token);
         window.location.href = res.data.redirectUrl;
