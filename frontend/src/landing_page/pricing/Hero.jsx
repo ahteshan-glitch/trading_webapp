@@ -1,7 +1,7 @@
 function Hero() {
     return ( 
         <div className="container ">
-            <div className="row mt-5  border-bottom">
+            <div className="row  border-bottom" style={{paddingTop:"90px"}}>
                 <div className="col text-center mb-5">
                     <h1>
                         Pricing
