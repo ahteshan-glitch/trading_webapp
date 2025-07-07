@@ -98,7 +98,7 @@ app.post("/login", async (req, res) => {
       res.cookie("token", token);
       return res.status(200).json({
         token,
-        redirectUrl: process.env.FRONTEND_URL,
+        redirectUrl: process.env.BACKEND_URL,
       });
     } else {
       return res.status(403).json({ message: "Invalid credentials" });
