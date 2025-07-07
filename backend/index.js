@@ -18,13 +18,13 @@ const {
 const PORT = process.env.PORT || 5000;
 const URL = process.env.MONGO_URL;
 
-// Middleware
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
 
-// Routes
+
 app.get("/allholdings", async (req, res) => {
   const allHoldings = await holdingModel.find({});
   res.send(allHoldings);
