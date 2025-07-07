@@ -1,4 +1,3 @@
-// backend/index.js
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
@@ -14,7 +13,22 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const app = express();
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  console.log("Incoming Origin:", req.headers.origin);
+  next();
+});
+
 app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://marketspex.netlify.app",
+    "https://moonlit-cocada-c21814.netlify.app"
+  ],
+  credentials: true
+}));
+
+app.options("*", cors({
   origin: [
     "http://localhost:5173",
     "https://marketspex.netlify.app",
